@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext } from "react";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { GiShoppingCart } from "react-icons/gi";
+import { cartContext } from "../App";
 import axios from "axios";
 
 const Main = () => {
   const [data, setData] = useState([]);
-  const [itemAmounts, setItemAmounts] = useState({}); // Store amounts per item
+  const {cart,setCart,itemAmounts,setItemAmounts} = useContext(cartContext)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,6 +16,18 @@ const Main = () => {
     fetchData();
   }, []);
 
+
+  useEffect(() => {
+
+    const updatedCart = data.map((item, index) => {
+        return { ...item, quantity: itemAmounts[index] || 0 };
+    }).filter(item => item.quantity > 0); 
+
+    setCart(updatedCart);
+
+}, [itemAmounts, data, setCart]);
+
+console.log(cart)
   const handleAddToCart = (index) => {
     setItemAmounts((prevAmounts) => ({
       ...prevAmounts,
