@@ -1,4 +1,4 @@
-import { useEffect, useState,useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { GiShoppingCart } from "react-icons/gi";
 import { cartContext } from "../App";
@@ -6,7 +6,8 @@ import axios from "axios";
 
 const Main = () => {
   const [data, setData] = useState([]);
-  const {cart,setCart,itemAmounts,setItemAmounts} = useContext(cartContext)
+  const { cart, setCart, itemAmounts, setItemAmounts } =
+    useContext(cartContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,18 +17,17 @@ const Main = () => {
     fetchData();
   }, []);
 
-
   useEffect(() => {
-
-    const updatedCart = data.map((item, index) => {
+    const updatedCart = data
+      .map((item, index) => {
         return { ...item, quantity: itemAmounts[index] || 0 };
-    }).filter(item => item.quantity > 0); 
+      })
+      .filter((item) => item.quantity > 0);
 
     setCart(updatedCart);
+  }, [itemAmounts, data, setCart]);
 
-}, [itemAmounts, data, setCart]);
-
-console.log(cart)
+  console.log(cart);
   const handleAddToCart = (index) => {
     setItemAmounts((prevAmounts) => ({
       ...prevAmounts,
@@ -53,42 +53,45 @@ console.log(cart)
   };
   return (
     <div className="h-fit w-[78%] border p-5">
-      <h1 className="font-extrabold text-2xl">
-        Desserts
-      </h1>
+      <h1 className="font-extrabold text-2xl">Desserts</h1>
       <div className="grid grid-cols-3 gap-5">
         {data.map((item, index) => {
-              const amount = itemAmounts[index] || 0;
-              const showButtons = amount > 0;
-          
+          const amount = itemAmounts[index] || 0;
+          const showButtons = amount > 0;
+
           return (
             <div key={index} className="p-5">
               <div className="relative mb-[-20px]">
-                <img
-                  src={item.image.desktop}
-                  alt=""
-                />
+                <img src={item.image.desktop} alt="" />
                 <span
                   className="flex relative justify-between bottom-6 m-auto text-xl
  bg-white items-center p-2 px-2 gap-4 rounded-3xl border w-fit"
                 >
                   {!showButtons ? (
                     <span
-                      className="flex items-center gap-2 text-xl"
+                      className="flex items-center gap-2 text-2xl cursor-pointer"
                       onClick={() => handleAddToCart(index)}
                     >
                       <GiShoppingCart />{" "}
-                      <h1 className="text-sm">
-                        Add to Cart{" "}
-                      </h1>
+                      <h1 className="text-lg font-bold">Add to Cart </h1>
                     </span>
                   ) : (
                     <>
-                      <button onClick={()=>{handleDecrement(index)}}>
+                      <button
+                        onClick={() => {
+                          handleDecrement(index);
+                        }}
+                        className="text-[#bb3f1a] font-bold text-2xl"
+                      >
                         <CiCircleMinus />
                       </button>
-                      {amount}
-                      <button onClick={()=>{handleIncrement(index)}}>
+                      <span className="text-xl font-semibold">{amount}</span>
+                      <button
+                        onClick={() => {
+                          handleIncrement(index);
+                        }}
+                        className="text-[#bb3f1a] font-bold text-2xl"
+                      >
                         <CiCirclePlus />
                       </button>
                     </>
