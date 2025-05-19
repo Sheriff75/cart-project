@@ -3,7 +3,7 @@ import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { GiShoppingCart } from "react-icons/gi";
 import { cartContext } from "../App";
 import axios from "axios";
-
+import {Grid} from '@mui/system'
 const Main = () => {
   const [data, setData] = useState([]);
   const { cart, setCart, itemAmounts, setItemAmounts } =
@@ -47,20 +47,23 @@ const Main = () => {
       const newAmount = prevAmounts[index] - 1;
       return {
         ...prevAmounts,
-        [index]: newAmount > 0 ? newAmount : 0, // Don't go below 0
+        [index]: newAmount > 0 ? newAmount : 0,
       };
     });
   };
   return (
     <div className="h-fit w-[78%] border p-5">
       <h1 className="font-extrabold text-2xl">Desserts</h1>
-      <div className="grid grid-cols-3 gap-5">
+      <Grid container
+      column = {{xs: 12, md: 12}}
+      size = {{xs: 12, md: 2 }}
+      >
         {data.map((item, index) => {
           const amount = itemAmounts[index] || 0;
           const showButtons = amount > 0;
 
           return (
-            <div key={index} className="p-5">
+            <Grid size = {{xs: 12, md: 4}} key={index} className="p-5">
               <div className="relative mb-[-20px]">
                 <img src={item.image.desktop} alt="" />
                 <span
@@ -103,10 +106,10 @@ const Main = () => {
               <p className=" text-[#bb3f1a] font-extrabold">
                 ${item.price.toFixed(2)}
               </p>
-            </div>
+            </Grid>
           );
         })}
-      </div>
+      </Grid>
     </div>
   );
 };
