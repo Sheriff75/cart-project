@@ -52,7 +52,7 @@ const Main = () => {
     });
   };
   return (
-    <div className="h-fit w-[78%] border p-5">
+    <div className="h-fit w-[78%] md:border p-5">
       <h1 className="font-extrabold text-2xl">Desserts</h1>
       <Grid container
       column = {{xs: 12, md: 12}}
